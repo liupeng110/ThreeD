@@ -32,7 +32,8 @@ public class MyFragment  extends Fragment {
 //        frameLayout.addView(unityPlayer);
 //        UnityPlayer unityPlayer=view.findViewById(R.id.framelayout);
 
-        unityPlayer = new UnityPlayer(getActivity());
+        unityPlayer = new UnityPlayer(this.getActivity());
+
         if (unityPlayer.getSettings ().getBoolean ("hide_status_bar",true))
             getActivity().getWindow ().setFlags (WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -40,6 +41,14 @@ public class MyFragment  extends Fragment {
         boolean trueColor8888 = false;
         unityPlayer.init(glesMode,trueColor8888);
         View playerView = unityPlayer.getView();
+//        View v=unityPlayer.getView();
+        if (playerView!=null){
+            try {
+                ViewGroup viewGroup= (ViewGroup) playerView.getParent();
+                viewGroup.removeAllViews();
+            }catch (Throwable t){t.printStackTrace();}
+        }
+
         FrameLayout layout = view.findViewById(R.id.framelayout);
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(750,630);
         layout.addView(playerView,lp);
