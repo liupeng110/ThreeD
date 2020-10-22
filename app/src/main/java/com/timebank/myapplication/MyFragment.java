@@ -9,10 +9,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 
 import com.unity3d.player.UnityPlayer;
 
 public class MyFragment  extends Fragment {
+    View view;
     UnityPlayer unityPlayer;
 
     @Override
@@ -23,9 +26,25 @@ public class MyFragment  extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-//        view = inflater.inflate(R.layout.fragment_layout, null);
-        unityPlayer=new UnityPlayer(getActivity());
-        return unityPlayer;
+        view = inflater.inflate(R.layout.fragment_layout, null);
+//        unityPlayer=new UnityPlayer(getActivity());
+//        FrameLayout frameLayout=view.findViewById(R.id.framelayout);
+//        frameLayout.addView(unityPlayer);
+//        UnityPlayer unityPlayer=view.findViewById(R.id.framelayout);
+
+        unityPlayer = new UnityPlayer(getActivity());
+        if (unityPlayer.getSettings ().getBoolean ("hide_status_bar",true))
+            getActivity().getWindow ().setFlags (WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        int glesMode = unityPlayer.getSettings().getInt("gles_mode",1);
+        boolean trueColor8888 = false;
+        unityPlayer.init(glesMode,trueColor8888);
+        View playerView = unityPlayer.getView();
+        FrameLayout layout = view.findViewById(R.id.framelayout);
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(750,630);
+        layout.addView(playerView,lp);
+
+        return view;
     }
 
     @Override
