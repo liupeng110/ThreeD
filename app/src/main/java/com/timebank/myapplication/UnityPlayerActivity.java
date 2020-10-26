@@ -1,19 +1,19 @@
 package com.timebank.myapplication;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.Window;
 
-import com.unity3d.player.*;
+import com.unity3d.player.UnityPlayer;
 
-public class UnityPlayerActivity extends Activity
+public class UnityPlayerActivity extends AppCompatActivity
 {
     MyFragment myFragment;
     protected UnityPlayer mUnityPlayer; // don't change the name of this variable; referenced from native code
@@ -51,9 +51,13 @@ public class UnityPlayerActivity extends Activity
 
 
     private void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = this.getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();   // 开启一个事务
-        transaction.replace(R.id.contents, fragment);
+//        FragmentManager fragmentManager = this.getFragmentManager();
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();   // 开启一个事务
+//        transaction.replace(R.id.contents, fragment);
+//        transaction.commit();
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(R.id.contents,fragment);
         transaction.commit();
     }
     @Override
